@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">tanuki</string>
+    <string name="name">Имя</string>
+    <string name="email">Email</string>
+    <string name="phone">Телефон</string>
+    <string name="street">Улица</string>
+    <string name="house">Дом</string>
+    <string name="flat">Квартира</string>
+    <string name="payType">Способ оплаты</string>
+    <string name="payment_encash">наличные</string>
+    <string name="payment_card_restaurant">картой курьеру</string>
+    <string name="comment">Комментарий</string>
+    <string name="countPersons">Кол-во персон</string>
+    <string name="countItems">Кол-во товаров</string>
+    <string name="sendOrder">Кнопка отправить заказ</string>
+</resources>
