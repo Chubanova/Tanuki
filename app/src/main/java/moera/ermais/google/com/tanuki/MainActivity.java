@@ -57,55 +57,51 @@ public class MainActivity extends AppCompatActivity {
 
         isValidPhoneOrEmail(mEmailET.getText(), Patterns.EMAIL_ADDRESS);
         isValidPhoneOrEmail(mPhoneET.getText(), Patterns.PHONE);
-//        boolean = mCountPersonET.getText()
         mSave.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                if (validForm()){
-
-                }
-                else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-
+                if (validForm()) {
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
                     builder.setMessage(R.string.dialog_message)
                             .setTitle(R.string.dialog_title);
-
                     AlertDialog dialog = builder.create();
+                    dialog.show();
                 }
-
-
             }
         });
 
     }
 
-    public final static boolean isValidPhoneOrEmail(CharSequence target, Pattern pattern) {
+    public static boolean isValidPhoneOrEmail(CharSequence target, Pattern pattern) {
         return !TextUtils.isEmpty(target) && pattern.matcher(target).matches();
     }
 
     boolean validForm() {
         boolean formIsValid = true;
-        if (isValidPhoneOrEmail(mEmailET.getText(), Patterns.EMAIL_ADDRESS)) {
+        if (!isValidPhoneOrEmail(mEmailET.getText(), Patterns.EMAIL_ADDRESS)) {
             mEmailET.setError("Enter valid email");
             formIsValid = false;
         }
-        if (isValidPhoneOrEmail(mPhoneET.getText(), Patterns.PHONE)) {
+
+        if (!isValidPhoneOrEmail(mPhoneET.getText(), Patterns.PHONE)) {
             mPhoneET.setError("Enter valid phone");
             formIsValid = false;
-
         }
-        int countPerson = Integer.parseInt(mCountPersonET.getText().toString());
-        if (countPerson > 10) {
-            mCountPersonET.setError("Персон должно быть меньшне 10");
+
+        boolean isCountPersonCorrect = !TextUtils.isEmpty(mCountPersonET.getText()) &&
+                Integer.parseInt(mCountPersonET.getText().toString()) <= 10;
+        if (!isCountPersonCorrect) {
+            mCountPersonET.setError("Персон должно быть меньше 10");
             formIsValid = false;
-
         }
-        int countItem = Integer.parseInt(mCountItemsET.getText().toString());
-        if (countItem <= 0) {
+
+        boolean isCountItemCorrect = !TextUtils.isEmpty(mCountItemsET.getText()) &&
+                Integer.parseInt(mCountItemsET.getText().toString()) > 0;
+        if (!isCountItemCorrect) {
             mCountItemsET.setError("Количество товаров должно быть больше 0");
             formIsValid = false;
-
         }
 
         return formIsValid;

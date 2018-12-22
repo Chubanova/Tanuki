@@ -27,6 +27,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-
+    compile 'com.github.pinball83:masked-edittext:1.0.4'
 
 }
