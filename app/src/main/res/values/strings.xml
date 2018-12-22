@@ -13,4 +13,6 @@
     <string name="countPersons">Кол-во персон</string>
     <string name="countItems">Кол-во товаров</string>
     <string name="sendOrder">Кнопка отправить заказ</string>
+    <string name="dialog_message">Заполните поля корректно</string>
+    <string name="dialog_title">Внимание</string>
 </resources>
