@@ -1,22 +1,32 @@
+
 package moera.ermais.google.com.tanuki.entity.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- *  "method":"makeOrder",
- "Result":{
- "code":0,
- "message":"makeOrder"
- }
- */
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Response {
-    String method = "makeOrder";
-    Result result;
+
+    @SerializedName("method")
+    @Expose
+    private String method;
+    @SerializedName("Result")
+    @Expose
+    private Result result;
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
+    }
+
 }

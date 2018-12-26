@@ -1,26 +1,54 @@
+
 package moera.ermais.google.com.tanuki.entity.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "OrderInfo":{
- * "orderNumber":<НОМЕР ЗАКАЗА>,
- * "messageTitle":<НОМЕР ЗАКАЗА>,
- * "message":<СООБЩЕНИЕ>,
- * "creationDate":<ДАТА СОЗДАНИЯ(unix timestamp)>
- * }
- */
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class OrderInfo {
-   int orderNumber;
-   String messageTitle;
-   String message;
-   String creationDate;
+
+    @SerializedName("orderNumber")
+    @Expose
+    private Integer orderNumber;
+    @SerializedName("messageTitle")
+    @Expose
+    private Integer messageTitle;
+    @SerializedName("message")
+    @Expose
+    private String message;
+    @SerializedName("creationDate")
+    @Expose
+    private String creationDate;
+
+    public Integer getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(Integer orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public Integer getMessageTitle() {
+        return messageTitle;
+    }
+
+    public void setMessageTitle(Integer messageTitle) {
+        this.messageTitle = messageTitle;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
 
 }

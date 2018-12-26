@@ -1,30 +1,21 @@
+
 package moera.ermais.google.com.tanuki.entity.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "ValidationResults":{
- * "Result":1
- * },
- * "ValidationResults":{
- * "Result":0,
- * "Errors":[
- * {
- * "Code":<ERROR CODE>,
- * "Message":<ERROR MESSAGE>
- * }
- * ]
- * }
- */
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class ValidationResults {
-    int result;
-    Error[] errors;
+
+    @SerializedName("Result")
+    @Expose
+    private Integer result;
+
+    public Integer getResult() {
+        return result;
+    }
+
+    public void setResult(Integer result) {
+        this.result = result;
+    }
+
 }

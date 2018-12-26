@@ -1,30 +1,32 @@
+
 package moera.ermais.google.com.tanuki.entity.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "ResponseBody":{
- "ValidationResults":{
- "Result":1
- },
- "OrderInfo":{
- "orderNumber":<НОМЕР ЗАКАЗА>,
- "messageTitle":<НОМЕР ЗАКАЗА>,
- "message":<СООБЩЕНИЕ>,
- "creationDate":<ДАТА СОЗДАНИЯ(unix timestamp)>
- }
- }
- */
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class ResponseBody {
-    ValidationResults validationResults;
-    OrderInfo orderInfo;
+
+    @SerializedName("ValidationResults")
+    @Expose
+    private ValidationResults validationResults;
+    @SerializedName("OrderInfo")
+    @Expose
+    private OrderInfo orderInfo;
+
+    public ValidationResults getValidationResults() {
+        return validationResults;
+    }
+
+    public void setValidationResults(ValidationResults validationResults) {
+        this.validationResults = validationResults;
+    }
+
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
+    }
 
 }

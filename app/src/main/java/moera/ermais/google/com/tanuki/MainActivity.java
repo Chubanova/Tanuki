@@ -2,11 +2,6 @@ package moera.ermais.google.com.tanuki;
 
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -19,13 +14,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
@@ -39,10 +29,13 @@ import moera.ermais.google.com.tanuki.entity.request.OrderItem;
 import moera.ermais.google.com.tanuki.entity.request.Request;
 import moera.ermais.google.com.tanuki.entity.request.Sender;
 import moera.ermais.google.com.tanuki.entity.response.Reply;
-import moera.ermais.google.com.tanuki.utils.NetworkUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Reply> {
+public class MainActivity extends AppCompatActivity {
     @BindView(R.id.orderTV)
     TextView mOrderTV;
     @BindView(R.id.nameET)
@@ -89,9 +82,31 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onClick(View arg0) {
                 if (validForm()) {
-                    sendJson();
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("http://api.dev2.tanuki.ru")
+                            .addConverterFactory(GsonConverterFactory.create())
+
+                            .build();
+                    API api = retrofit.create(API.class);
+                    Request request = generateRequest();
+//                    Request body = RequestBody.create(MediaType.parse("application/json"), obj.toString());
 
 
+                    Call<Reply> call = api.reply(request);
+                    call.enqueue(new Callback<Reply>() {
+                                     @Override
+                                     public void onResponse(Call<Reply> call, Response<Reply> response) {
+                                         Log.d(TAG, response.message());
+
+                                     }
+
+                                     @Override
+                                     public void onFailure(Call<Reply> call, Throwable t) {
+
+                                     }
+                                 }
+
+                    );
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
                     builder.setMessage(R.string.dialog_message)
@@ -104,15 +119,14 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    private void sendJson() {
-        String json = generateJson();
-        Bundle args = new Bundle();
-        args.putString(getResources().getString(R.string.json), json);
+//    private void sendJson() {
+//        String json = generateRequest();
+//        Bundle args = new Bundle();
+//        args.putString(getResources().getString(R.string.json), json);
+//
+//         }
 
-        getSupportLoaderManager().restartLoader(ORDER_LOADER_ID, args, this);
-    }
-
-    private String generateJson() {
+    private Request generateRequest() {
         Data data = new Data();
         data.setDateToDeliver("32323232");
         data.setComments(mCommentET.getText().toString());
@@ -152,10 +166,10 @@ public class MainActivity extends AppCompatActivity implements
         request.setData(data);
 
 
-        GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        Log.i("GSON", gson.toJson(request));
-        return gson.toJson(request);
+//        GsonBuilder builder = new GsonBuilder();
+//        Gson gson = builder.create();
+//        Log.i("GSON", gson.toJson(request));
+        return request;
 
     }
 
@@ -191,41 +205,65 @@ public class MainActivity extends AppCompatActivity implements
 
         return formIsValid;
     }
-
-    @NonNull
-    @Override
-    public Loader<Reply> onCreateLoader(int id, @Nullable Bundle args) {
-        return new AsyncTaskLoader<Reply>(this) {
-            @Nullable
-            @Override
-            public Reply loadInBackground() {
-                Log.d(TAG, "I in LOAD");
-                Map<String, Object> information = new TreeMap<>();
-                information.put("Context", getApplicationContext());
-                URL moviesRequestUrl = NetworkUtils.buildUrl(information);
-                Reply reply = new Reply();
-                try {
-                    String jsonMoviesResponse = NetworkUtils
-                            .getResponseFromHttpUrl(moviesRequestUrl);
-                    GsonBuilder builder = new GsonBuilder();
-                    Gson gson = builder.create();
-                    reply = gson.fromJson(jsonMoviesResponse, Reply.class);
-
-                } catch (Exception e) {
-                    Log.e("Error fetching movies data", e.getMessage());
-                }
-                return reply;
-            }
-        };
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Reply> loader, Reply data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Reply> loader) {
-
-    }
+//
+//    @NonNull
+//    @Override
+//    public Loader<Reply> onCreateLoader(int id, @Nullable Bundle args) {
+//        Log.d(TAG, "I in LOAD1");
+//        return new AsyncTaskLoader<Reply>(this) {
+//
+//            @Override
+//            protected void onStartLoading() {
+//
+//                forceLoad();
+//            }
+//
+//
+//            @Nullable
+//            @Override
+//            public Reply loadInBackground() {
+//                Log.d(TAG, "I in LOAD");
+//                Map<String, Object> information = new TreeMap<>();
+//                information.put("Context", getApplicationContext());
+//                URL url = NetworkUtils.buildUrl(information);
+//                Reply reply = new Reply();
+//                Retrofit retrofit = new Retrofit.Builder()
+//                        .baseUrl(getResources().getString(R.string.url_tanuki))
+//                        .build();
+//
+//                API api = retrofit.create(API.class);
+//
+//                try {
+//
+//
+//                    String jsonMoviesResponse = NetworkUtils
+//                            .getResponseFromHttpUrl(url);
+//                    Log.d(TAG, "I in LOAD"+jsonMoviesResponse);
+//
+//                    GsonBuilder builder = new GsonBuilder();
+//                    Gson gson = builder.create();
+//                    reply = gson.fromJson(jsonMoviesResponse, Reply.class);
+//
+//                } catch (Exception e) {
+//                    Log.e("Error fetching movies data", e.getMessage());
+//                }
+//                return reply;
+//            }
+//
+//            public void deliverResult(Reply data) {
+////                mMovieData = data;
+//                super.deliverResult(data);
+//            }
+//        };
+//    }
+//
+//    @Override
+//    public void onLoadFinished(@NonNull Loader<Reply> loader, Reply data) {
+//
+//    }
+//
+//    @Override
+//    public void onLoaderReset(@NonNull Loader<Reply> loader) {
+//
+//    }
 }
