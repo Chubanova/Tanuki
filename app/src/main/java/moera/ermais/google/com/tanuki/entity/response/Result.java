@@ -9,6 +9,9 @@ public class Result {
     @SerializedName("code")
     @Expose
     private Integer code;
+    @SerializedName("errorCode")
+    @Expose
+    private Integer errorCode;
     @SerializedName("message")
     @Expose
     private String message;
@@ -19,6 +22,14 @@ public class Result {
 
     public void setCode(Integer code) {
         this.code = code;
+    }
+
+    public Integer getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
     }
 
     public String getMessage() {

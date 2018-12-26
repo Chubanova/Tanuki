@@ -1,22 +1,31 @@
 package moera.ermais.google.com.tanuki.entity.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "sender": {
- * "name": <ИМЯ>,
- * "phone": <ТЕЛЕФОН>
- * }
- */
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Sender {
-    String name;
-    String phone;
+
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
 }

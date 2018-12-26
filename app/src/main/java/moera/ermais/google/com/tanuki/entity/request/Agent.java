@@ -1,20 +1,31 @@
 package moera.ermais.google.com.tanuki.entity.request;
 
-import lombok.NoArgsConstructor;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- *  "agent": {
- * "device":”desktop”,
- * "version":”Chromium 68.0.3440.75”
- * }
- */
-@NoArgsConstructor
 public class Agent {
-    String device = "device";
-    String version = "Chromium 68.0.3440.75";
 
-//    public Agent() {
-//    }
+    @SerializedName("device")
+    @Expose
+    private String device;
+    @SerializedName("version")
+    @Expose
+    private String version;
 
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
 }

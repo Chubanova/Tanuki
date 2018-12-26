@@ -1,47 +1,5 @@
 {
   "data": {
-    "deliveryType": "deliveryTypeRegular", //значение не меняется
-    "comments": <КОММЕНТАРИЙ>,
-    "orderItems": [
-      {
-        "amount": <КОЛ-ВО ТОВАРОВ>,
-        "itemId": "9", //значение не меняется
-        "price": 110 //значение не меняется
-      }
-    ],
-    "persons": <КОЛ-ВО ПЕРСОН>,
-    "paymentMethod": <СПОСОБ ОПЛАТЫ>, // (payment_encash - Наличными, payment_card_restaurant - Картой курьеру)
-    "notificationType": "СМС оповещение", //значение не меняется
-    "deliveryAddress": {
-      "cityId": "1", //значение не меняется
-      "street": <УЛИЦА>,
-      "house": <ДОМ>,
-      "apartment": <КВАРТИРА>
-    },
-    "sender": {
-      "name": <ИМЯ>,
-      "phone": <ТЕЛЕФОН>
-    }
-  },
-  "method": {
-    "name": "makeOrder",
-    "mode": "getData",
-    "mtime": 0
-  },
-  //значение не меняется
-  "header": {
-    "version": "2.0",
-    //значение не меняется
-    "userId": <UDID>,
-    "debugMode": true,
-    "agent": {
-      "device":”desktop”,
-      "version":”Chromium 68.0.3440.75”
-    }
-  }
-}
-{
-  "data": {
     "comments": "Комментарий",
     "deliveryAddress": {
       "apartment": "52",
@@ -54,7 +12,7 @@
     "notificationType": "СМС оповещение",
     "orderItems": [
       {
-        "amount": 4,
+        "amount": 10,
         "itemId": "9",
         "price": 110
       }
@@ -73,6 +31,47 @@
     },
     "debugMode": true,
     "userId": "b1fd5271d981d1b7",
+    "version": "2.0"
+  },
+  "method": {
+    "mode": "getData",
+    "mtime": 0,
+    "name": "makeOrder"
+  }
+}
+{
+  "data": {
+    "comments": "Комментарий",
+    "dateToDeliver": "20180824164119",
+    "deliveryAddress": {
+      "apartment": "52",
+      "cityId": "1",
+      "house": "6",
+      "street": "Буракова"
+    },
+    "deliveryType": "deliveryTypeRegular",
+    "notificationType": "СМС оповещение",
+    "orderItems": [
+      {
+        "amount": 10,
+        "itemId": "9",
+        "price": 110
+      }
+    ],
+    "paymentMethod": "payment_encash",
+    "persons": 2,
+    "sender": {
+      "name": "Михаил",
+      "phone": "+7 (903) 539-32-11"
+    }
+  },
+  "header": {
+    "agent": {
+      "device": "desktop",
+      "version": "Chromium 68.0.3440.75"
+    },
+    "debugMode": true,
+    "userId": "772c73cb3bdf1d11",
     "version": "2.0"
   },
   "method": {

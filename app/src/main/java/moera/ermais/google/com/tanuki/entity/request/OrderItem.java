@@ -1,30 +1,42 @@
 package moera.ermais.google.com.tanuki.entity.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "orderItems": [
- * {
- * "amount": <КОЛ-ВО
- * ТОВАРОВ>,
- * "itemId": "9",
- * //значение не меняется
- * "price": 110
- * //значение не меняется
- * }
- * ],
- */
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class OrderItem {
-    int amount;
-    String itemId = "9";
-    int price = 110;
 
+    @SerializedName("amount")
+    @Expose
+    private Integer amount;
+    @SerializedName("itemId")
+    @Expose
+    private String itemId;
+    @SerializedName("price")
+    @Expose
+    private Integer price;
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
 
 }

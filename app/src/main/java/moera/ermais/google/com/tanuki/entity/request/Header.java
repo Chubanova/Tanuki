@@ -1,31 +1,53 @@
 package moera.ermais.google.com.tanuki.entity.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "header": {
- * "version": "2.0",
- * //значение не меняется
- * "userId": <UDID>,
- * "debugMode": true,
- * "agent": {
- * "device":”desktop”,
- * "version":”Chromium 68.0.3440.75”
- * }
- * }
- */
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Header {
-    String version= "2.0";
-    String userId;
-    boolean  debugMode= true;
-    Agent agent;
 
+    @SerializedName("version")
+    @Expose
+    private String version;
+    @SerializedName("userId")
+    @Expose
+    private String userId;
+    @SerializedName("debugMode")
+    @Expose
+    private Boolean debugMode;
+    @SerializedName("agent")
+    @Expose
+    private Agent agent;
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Boolean getDebugMode() {
+        return debugMode;
+    }
+
+    public void setDebugMode(Boolean debugMode) {
+        this.debugMode = debugMode;
+    }
+
+    public Agent getAgent() {
+        return agent;
+    }
+
+    public void setAgent(Agent agent) {
+        this.agent = agent;
+    }
 
 }

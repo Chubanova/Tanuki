@@ -1,79 +1,111 @@
 package moera.ermais.google.com.tanuki.entity.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-/**
- * "data": {
- * "deliveryType": "deliveryTypeRegular",
- * //значение не меняется
- * "comments": <КОММЕНТАРИЙ>,
- * "orderItems": [
- * {
- * "amount": <КОЛ-ВО
- * ТОВАРОВ>,
- * "itemId": "9",
- * //значение не меняется
- * "price": 110
- * //значение не меняется
- * }
- * ],
- * "persons": <КОЛ-ВО ПЕРСОН>,
- * "paymentMethod": <СПОСОБ ОПЛАТЫ>,  // (payment_encash - Наличными, payment_card_restaurant - Картой курьеру)
- * "notificationType": "СМС оповещение", //значение не меняется
- * "deliveryAddress": {
- * "cityId": "1",
- * //значение не меняется
- * "street": <УЛИЦА>,
- * "house": <ДОМ>,
- * "apartment": <КВАРТИРА>
- * },
- * "sender": {
- * "name": <ИМЯ>,
- * "phone": <ТЕЛЕФОН>
- * }
- * }
- * <p>
- * "data": {
- * "comments": "Комментарий",
- * "deliveryAddress": {
- * "apartment": "52",
- * "cityId": "1",
- * "house": "6",
- * "street": "Буракова"
- * },
- * "dateToDeliver": "20180824164119",
- * "deliveryType": "deliveryTypeRegular",
- * "notificationType": "СМС оповещение",
- * "orderItems": [
- * {
- * "amount": 4,
- * "itemId": "9",
- * "price": 110
- * }
- * ],
- * "paymentMethod": "payment_encash",
- * "persons": 2,
- * "sender": {
- * "name": "Михаил",
- * "phone": "+7 (903) 539-32-11"
- * }
- * }
- */
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Data {
-    String deliveryType = "deliveryTypeRegular";
-    String dateToDeliver;
-    String comments;
-    int persons;
-    String paymentMethod;
-    String notificationType = "СМС оповещение";
-    OrderItem[] orderItems;
-    DeliveryAddress deliveryAddress;
-    Sender sender;
+
+    @SerializedName("deliveryType")
+    @Expose
+    private String deliveryType;
+    @SerializedName("dateToDeliver")
+    @Expose
+    private String dateToDeliver;
+    @SerializedName("comments")
+    @Expose
+    private String comments;
+    @SerializedName("orderItems")
+    @Expose
+    private List<OrderItem> orderItems = null;
+    @SerializedName("persons")
+    @Expose
+    private Integer persons;
+    @SerializedName("paymentMethod")
+    @Expose
+    private String paymentMethod;
+    @SerializedName("notificationType")
+    @Expose
+    private String notificationType;
+    @SerializedName("deliveryAddress")
+    @Expose
+    private DeliveryAddress deliveryAddress;
+    @SerializedName("sender")
+    @Expose
+    private Sender sender;
+
+    public String getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(String deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public String getDateToDeliver() {
+        return dateToDeliver;
+    }
+
+    public void setDateToDeliver(String dateToDeliver) {
+        this.dateToDeliver = dateToDeliver;
+    }
+
+
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public Integer getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Integer persons) {
+        this.persons = persons;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
+    }
+
+    public DeliveryAddress getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public Sender getSender() {
+        return sender;
+    }
+
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
+
 }

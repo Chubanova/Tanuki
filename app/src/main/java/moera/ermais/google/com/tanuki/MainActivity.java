@@ -14,7 +14,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -29,6 +34,8 @@ import moera.ermais.google.com.tanuki.entity.request.OrderItem;
 import moera.ermais.google.com.tanuki.entity.request.Request;
 import moera.ermais.google.com.tanuki.entity.request.Sender;
 import moera.ermais.google.com.tanuki.entity.response.Reply;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,26 +90,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 if (validForm()) {
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://api.dev2.tanuki.ru")
+                            .baseUrl("http://api.dev2.tanuki.ru/")
                             .addConverterFactory(GsonConverterFactory.create())
 
                             .build();
                     API api = retrofit.create(API.class);
-                    Request request = generateRequest();
-//                    Request body = RequestBody.create(MediaType.parse("application/json"), obj.toString());
+                    String request = generateRequest();
+                    RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), request);
 
 
-                    Call<Reply> call = api.reply(request);
+                    Call<Reply> call = api.reply(body);
                     call.enqueue(new Callback<Reply>() {
                                      @Override
                                      public void onResponse(Call<Reply> call, Response<Reply> response) {
-                                         Log.d(TAG, response.message());
+                                         GsonBuilder builder = new GsonBuilder();
+                                         Gson gson = builder.create();
+                                         String result = "jsonData=" + gson.toJson(response.body());
+                                         Log.i(TAG, result);
+//                                         Log.d(TAG, response.body().));
 
                                      }
 
                                      @Override
                                      public void onFailure(Call<Reply> call, Throwable t) {
-
+                                         Log.d(TAG, "err: " + t.getMessage());
                                      }
                                  }
 
@@ -119,16 +130,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    private void sendJson() {
-//        String json = generateRequest();
-//        Bundle args = new Bundle();
-//        args.putString(getResources().getString(R.string.json), json);
-//
-//         }
-
-    private Request generateRequest() {
+    private String generateRequest() {
         Data data = new Data();
-        data.setDateToDeliver("32323232");
+        data.setDateToDeliver("20180824164119");
+        data.setDeliveryType("deliveryTypeRegular");
+        data.setNotificationType("СМС оповещение");
         data.setComments(mCommentET.getText().toString());
         data.setPersons(Integer.parseInt(mCountPersonET.getText().toString()));
         Map<String, String> typeOfPaymentMethod = new HashMap<>();
@@ -138,11 +144,14 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MAIN_ACTIVITY", mPayTypeS.getSelectedItem().toString() + typeOfPaymentMethod.get(mPayTypeS.getSelectedItem().toString()));
         OrderItem orderItem = new OrderItem();
         orderItem.setAmount(Integer.parseInt(mCountItemsET.getText().toString()));
-        OrderItem[] orderItems = new OrderItem[1];
-        orderItems[0] = orderItem; //TODO always alone???
+        orderItem.setItemId("9");
+        orderItem.setPrice(110);
+        List<OrderItem> orderItems = new ArrayList<>();
+        orderItems.add(orderItem); //TODO always alone???
         data.setOrderItems(orderItems);
         DeliveryAddress deliveryAddress = new DeliveryAddress();
         deliveryAddress.setStreet(mStreetET.getText().toString());
+        deliveryAddress.setCityId("1");
         deliveryAddress.setHouse(mHouseET.getText().toString());
         deliveryAddress.setApartment(mFlatET.getText().toString());
         data.setDeliveryAddress(deliveryAddress);
@@ -155,21 +164,31 @@ public class MainActivity extends AppCompatActivity {
 
         String android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        header.setUserId(android_id);
+//        header.setUserId(android_id);
+        header.setUserId("b1fd5271d981d1b7");// Если ставить уникальный id, то всегда возвращается ошибка Минимальная сумма заказа в Москве 1000 руб.
         Agent agent = new Agent();
+        agent.setDevice("desktop");
+        agent.setVersion("Chromium 68.0.3440.75");
         header.setAgent(agent);
+        header.setDebugMode(true);
+        header.setVersion("2.0");
 
         Method method = new Method();
+        method.setMode("getData");
+        method.setMtime(0);
+        method.setName("makeOrder");
+
         Request request = new Request();
         request.setMethod(method);
         request.setHeader(header);
         request.setData(data);
 
 
-//        GsonBuilder builder = new GsonBuilder();
-//        Gson gson = builder.create();
-//        Log.i("GSON", gson.toJson(request));
-        return request;
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        String result = "jsonData=" + gson.toJson(request);
+        Log.i("GSON", result);
+        return result;
 
     }
 
