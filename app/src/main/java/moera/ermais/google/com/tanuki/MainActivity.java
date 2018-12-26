@@ -1,5 +1,7 @@
 package moera.ermais.google.com.tanuki;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -33,6 +35,7 @@ import moera.ermais.google.com.tanuki.entity.request.Method;
 import moera.ermais.google.com.tanuki.entity.request.OrderItem;
 import moera.ermais.google.com.tanuki.entity.request.Request;
 import moera.ermais.google.com.tanuki.entity.request.Sender;
+import moera.ermais.google.com.tanuki.entity.response.Error;
 import moera.ermais.google.com.tanuki.entity.response.Reply;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -68,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.addButton)
     Button mSave;
     public static final String TAG = MainActivity.class.getSimpleName();
-    private static final int ORDER_LOADER_ID = 0;
 
 
     @Override
@@ -107,8 +109,23 @@ public class MainActivity extends AppCompatActivity {
                                          Gson gson = builder.create();
                                          String result = "jsonData=" + gson.toJson(response.body());
                                          Log.i(TAG, result);
-//                                         Log.d(TAG, response.body().));
+                                         Reply reply = response.body();
+                                         if (reply.getResponseBody().getValidationResults().getResult()) {
 
+
+                                             Context context = getApplicationContext();
+                                             Class destination = DetailActivity.class;
+                                             Intent intent = new Intent(context, destination);
+                                             intent.putExtra("orderNumber", reply.getResponseBody().getOrderInfo().getOrderNumber());
+                                             startActivity(intent);
+                                         } else {
+                                             StringBuilder message= null;
+
+                                             for (Error error : reply.getResponseBody().getValidationResults().getErrors()) {
+                                                 message.append(error.getMessage()).append("\n");
+                                             }
+                                             showAlert(message.toString());
+                                         }
                                      }
 
                                      @Override
@@ -119,15 +136,19 @@ public class MainActivity extends AppCompatActivity {
 
                     );
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
-                    builder.setMessage(R.string.dialog_message)
-                            .setTitle(R.string.dialog_title);
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    showAlert(getResources().getString(R.string.dialog_message));
                 }
             }
         });
 
+    }
+
+    private void showAlert(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder((MainActivity.this));
+        builder.setMessage(message)
+                .setTitle(R.string.dialog_title);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private String generateRequest() {
@@ -224,65 +245,4 @@ public class MainActivity extends AppCompatActivity {
 
         return formIsValid;
     }
-//
-//    @NonNull
-//    @Override
-//    public Loader<Reply> onCreateLoader(int id, @Nullable Bundle args) {
-//        Log.d(TAG, "I in LOAD1");
-//        return new AsyncTaskLoader<Reply>(this) {
-//
-//            @Override
-//            protected void onStartLoading() {
-//
-//                forceLoad();
-//            }
-//
-//
-//            @Nullable
-//            @Override
-//            public Reply loadInBackground() {
-//                Log.d(TAG, "I in LOAD");
-//                Map<String, Object> information = new TreeMap<>();
-//                information.put("Context", getApplicationContext());
-//                URL url = NetworkUtils.buildUrl(information);
-//                Reply reply = new Reply();
-//                Retrofit retrofit = new Retrofit.Builder()
-//                        .baseUrl(getResources().getString(R.string.url_tanuki))
-//                        .build();
-//
-//                API api = retrofit.create(API.class);
-//
-//                try {
-//
-//
-//                    String jsonMoviesResponse = NetworkUtils
-//                            .getResponseFromHttpUrl(url);
-//                    Log.d(TAG, "I in LOAD"+jsonMoviesResponse);
-//
-//                    GsonBuilder builder = new GsonBuilder();
-//                    Gson gson = builder.create();
-//                    reply = gson.fromJson(jsonMoviesResponse, Reply.class);
-//
-//                } catch (Exception e) {
-//                    Log.e("Error fetching movies data", e.getMessage());
-//                }
-//                return reply;
-//            }
-//
-//            public void deliverResult(Reply data) {
-////                mMovieData = data;
-//                super.deliverResult(data);
-//            }
-//        };
-//    }
-//
-//    @Override
-//    public void onLoadFinished(@NonNull Loader<Reply> loader, Reply data) {
-//
-//    }
-//
-//    @Override
-//    public void onLoaderReset(@NonNull Loader<Reply> loader) {
-//
-//    }
 }
