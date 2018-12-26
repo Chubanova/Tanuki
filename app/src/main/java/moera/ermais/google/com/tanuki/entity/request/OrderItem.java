@@ -1,4 +1,4 @@
-package moera.ermais.google.com.tanuki.entity;
+package moera.ermais.google.com.tanuki.entity.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

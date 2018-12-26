@@ -1,6 +1,12 @@
 package moera.ermais.google.com.tanuki;
 
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -16,21 +22,27 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.Calendar;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import moera.ermais.google.com.tanuki.entity.Agent;
-import moera.ermais.google.com.tanuki.entity.Data;
-import moera.ermais.google.com.tanuki.entity.DeliveryAddress;
-import moera.ermais.google.com.tanuki.entity.Header;
-import moera.ermais.google.com.tanuki.entity.Method;
-import moera.ermais.google.com.tanuki.entity.OrderItem;
-import moera.ermais.google.com.tanuki.entity.Request;
-import moera.ermais.google.com.tanuki.entity.Sender;
+import moera.ermais.google.com.tanuki.entity.request.Agent;
+import moera.ermais.google.com.tanuki.entity.request.Data;
+import moera.ermais.google.com.tanuki.entity.request.DeliveryAddress;
+import moera.ermais.google.com.tanuki.entity.request.Header;
+import moera.ermais.google.com.tanuki.entity.request.Method;
+import moera.ermais.google.com.tanuki.entity.request.OrderItem;
+import moera.ermais.google.com.tanuki.entity.request.Request;
+import moera.ermais.google.com.tanuki.entity.request.Sender;
+import moera.ermais.google.com.tanuki.entity.response.Reply;
+import moera.ermais.google.com.tanuki.utils.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Reply> {
     @BindView(R.id.orderTV)
     TextView mOrderTV;
     @BindView(R.id.nameET)
@@ -55,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     EditText mCountItemsET;
     @BindView(R.id.addButton)
     Button mSave;
+    public static final String TAG = MainActivity.class.getSimpleName();
+    private static final int ORDER_LOADER_ID = 0;
 
 
     @Override
@@ -75,8 +89,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 if (validForm()) {
-                    String json = generateJson();
-
+                    sendJson();
 
 
                 } else {
@@ -91,16 +104,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String generateJson(){
+    private void sendJson() {
+        String json = generateJson();
+        Bundle args = new Bundle();
+        args.putString(getResources().getString(R.string.json), json);
+
+        getSupportLoaderManager().restartLoader(ORDER_LOADER_ID, args, this);
+    }
+
+    private String generateJson() {
         Data data = new Data();
         data.setDateToDeliver("32323232");
         data.setComments(mCommentET.getText().toString());
         data.setPersons(Integer.parseInt(mCountPersonET.getText().toString()));
-        data.setPaymentMethod(mPayTypeS.getSelectedItem().toString());
+        Map<String, String> typeOfPaymentMethod = new HashMap<>();
+        typeOfPaymentMethod.put("Наличными", "payment_encash");
+        typeOfPaymentMethod.put("Картой курьеру", "payment_card_restaurant");
+        data.setPaymentMethod(typeOfPaymentMethod.get(mPayTypeS.getSelectedItem().toString()));
+        Log.d("MAIN_ACTIVITY", mPayTypeS.getSelectedItem().toString() + typeOfPaymentMethod.get(mPayTypeS.getSelectedItem().toString()));
         OrderItem orderItem = new OrderItem();
         orderItem.setAmount(Integer.parseInt(mCountItemsET.getText().toString()));
-        OrderItem [] orderItems = new OrderItem[1];
-        orderItems[0]= orderItem; //TODO always alone???
+        OrderItem[] orderItems = new OrderItem[1];
+        orderItems[0] = orderItem; //TODO always alone???
         data.setOrderItems(orderItems);
         DeliveryAddress deliveryAddress = new DeliveryAddress();
         deliveryAddress.setStreet(mStreetET.getText().toString());
@@ -113,7 +138,10 @@ public class MainActivity extends AppCompatActivity {
         data.setSender(sender);
 
         Header header = new Header();
-        header.setUserId("b1fd5271d981d1b7");
+
+        String android_id = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        header.setUserId(android_id);
         Agent agent = new Agent();
         header.setAgent(agent);
 
@@ -124,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
         request.setData(data);
 
 
-
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         Log.i("GSON", gson.toJson(request));
         return gson.toJson(request);
 
     }
+
     public static boolean isValidPhoneOrEmail(CharSequence target, Pattern pattern) {
         return !TextUtils.isEmpty(target) && pattern.matcher(target).matches();
     }
@@ -164,4 +192,40 @@ public class MainActivity extends AppCompatActivity {
         return formIsValid;
     }
 
+    @NonNull
+    @Override
+    public Loader<Reply> onCreateLoader(int id, @Nullable Bundle args) {
+        return new AsyncTaskLoader<Reply>(this) {
+            @Nullable
+            @Override
+            public Reply loadInBackground() {
+                Log.d(TAG, "I in LOAD");
+                Map<String, Object> information = new TreeMap<>();
+                information.put("Context", getApplicationContext());
+                URL moviesRequestUrl = NetworkUtils.buildUrl(information);
+                Reply reply = new Reply();
+                try {
+                    String jsonMoviesResponse = NetworkUtils
+                            .getResponseFromHttpUrl(moviesRequestUrl);
+                    GsonBuilder builder = new GsonBuilder();
+                    Gson gson = builder.create();
+                    reply = gson.fromJson(jsonMoviesResponse, Reply.class);
+
+                } catch (Exception e) {
+                    Log.e("Error fetching movies data", e.getMessage());
+                }
+                return reply;
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Reply> loader, Reply data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Reply> loader) {
+
+    }
 }

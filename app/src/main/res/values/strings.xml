@@ -7,12 +7,15 @@
     <string name="house">Дом</string>
     <string name="flat">Квартира</string>
     <string name="payType">Способ оплаты</string>
-    <string name="payment_encash">наличные</string>
-    <string name="payment_card_restaurant">картой курьеру</string>
+    <string name="payment_encash">Наличными</string>
+    <string name="payment_card_restaurant">Картой курьеру</string>
     <string name="comment">Комментарий</string>
     <string name="countPersons">Кол-во персон</string>
     <string name="countItems">Кол-во товаров</string>
     <string name="sendOrder">Кнопка отправить заказ</string>
     <string name="dialog_message">Заполните поля корректно</string>
     <string name="dialog_title">Внимание</string>
+    <string name="url_tanuki">http://api.dev2.tanuki.ru/</string>
+    <string name="built_URI">Built URI </string>
+    <string name="json">json</string>
 </resources>

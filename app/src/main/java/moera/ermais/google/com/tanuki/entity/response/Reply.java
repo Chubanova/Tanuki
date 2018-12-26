@@ -1,4 +1,4 @@
-package moera.ermais.google.com.tanuki.entity;
+package moera.ermais.google.com.tanuki.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Request {
-    Data data;
-    Method method;
-    Header header;
-
+public class Reply {
+    Response response;
+    ResponseBody responseBody;
 
 }
+
