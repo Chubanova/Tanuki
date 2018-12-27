@@ -2,6 +2,7 @@ package moera.ermais.google.com.tanuki;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                             .build();
                     API api = retrofit.create(API.class);
-                    String request = generateRequest();
+                    final String request = generateRequest();
                     RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), request);
 
 
@@ -117,9 +118,10 @@ public class MainActivity extends AppCompatActivity {
                                              Class destination = DetailActivity.class;
                                              Intent intent = new Intent(context, destination);
                                              intent.putExtra("orderNumber", reply.getResponseBody().getOrderInfo().getOrderNumber());
+                                             intent.putExtra("orderInfo", request);
                                              startActivity(intent);
                                          } else {
-                                             StringBuilder message= null;
+                                             StringBuilder message = new StringBuilder("");
 
                                              for (Error error : reply.getResponseBody().getValidationResults().getErrors()) {
                                                  message.append(error.getMessage()).append("\n");
@@ -168,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         orderItem.setItemId("9");
         orderItem.setPrice(110);
         List<OrderItem> orderItems = new ArrayList<>();
-        orderItems.add(orderItem); //TODO always alone???
+        orderItems.add(orderItem);
         data.setOrderItems(orderItems);
         DeliveryAddress deliveryAddress = new DeliveryAddress();
         deliveryAddress.setStreet(mStreetET.getText().toString());
@@ -188,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
 //        header.setUserId(android_id);
         header.setUserId("b1fd5271d981d1b7");// Если ставить уникальный id, то всегда возвращается ошибка Минимальная сумма заказа в Москве 1000 руб.
         Agent agent = new Agent();
-        agent.setDevice("desktop");
-        agent.setVersion("Chromium 68.0.3440.75");
+        agent.setDevice("android_v2");
+        agent.setVersion(String.format("%d", Build.VERSION.SDK_INT));
         header.setAgent(agent);
         header.setDebugMode(true);
         header.setVersion("2.0");

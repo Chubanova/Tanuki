@@ -5,31 +5,188 @@
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/orderInfoTV"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/order_number" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/orderNumberTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
 
-        <Button
-            android:id="@+id/returnB"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/send_new_order" />
-    </LinearLayout>
+
+                <TextView
+                    android:id="@+id/orderInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_number"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/orderNumberTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/nameInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/nameTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"                     android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/phoneInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/phone"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/phoneTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/streetInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/street"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/streetTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/houseInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/house"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/houseTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/flatInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/flat"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/flatTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+                <TextView
+                    android:id="@+id/payTypeInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/payType"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/payTypeTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/commentInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/comment"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/commentTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <TextView
+                    android:id="@+id/countPersonsInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/countPersons"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/countPersonsTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+                <TextView
+                    android:id="@+id/countItemsInfoTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/countItems"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/header_text_size"/>
+
+                <TextView
+                    android:id="@+id/countItemsTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/info_text_size"/>
+
+
+                <Button
+                    android:id="@+id/returnB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send_new_order" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>
