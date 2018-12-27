@@ -16,8 +16,13 @@
     <string name="dialog_message">Заполните поля корректно</string>
     <string name="dialog_title">Внимание</string>
     <string name="url_tanuki">http://api.dev2.tanuki.ru/</string>
+    <string name="header">application/x-www-form-urlencoded</string>
     <string name="built_URI">Built URI </string>
     <string name="json">json</string>
+    <string name="invalid_email">Enter valid email</string>
+    <string name="invalid_phone">Enter valid phone</string>
+    <string name="invalid_person">Персон должно быть меньше 10</string>
+    <string name="invalid_item">Количество товаров должно быть больше 0</string>
     <string name="order_number">Номер заказа</string>
     <string name="send_new_order">Отправить другой заказ</string>
 </resources>

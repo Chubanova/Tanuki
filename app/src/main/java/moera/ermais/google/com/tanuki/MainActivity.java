@@ -93,13 +93,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 if (validForm()) {
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://api.dev2.tanuki.ru/")
+                            .baseUrl(getResources().getString(R.string.url_tanuki))
                             .addConverterFactory(GsonConverterFactory.create())
 
                             .build();
                     API api = retrofit.create(API.class);
                     final String request = generateRequest();
-                    RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), request);
+                    RequestBody body = RequestBody.create(MediaType.parse(getResources().getString(R.string.header)), request);
 
 
                     Call<Reply> call = api.reply(body);
@@ -188,10 +188,15 @@ public class MainActivity extends AppCompatActivity {
         String android_id = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 //        header.setUserId(android_id);
+
+        //      "device": "desktop",
+        //      "version": "Chromium 68.0.3440.75"
         header.setUserId("b1fd5271d981d1b7");// Если ставить уникальный id, то всегда возвращается ошибка Минимальная сумма заказа в Москве 1000 руб.
         Agent agent = new Agent();
-        agent.setDevice("android_v2");
-        agent.setVersion(String.format("%d", Build.VERSION.SDK_INT));
+//        agent.setDevice("android_v2"); // Если заполнять данными значениями номер заказа возвращается всегда 0
+        agent.setDevice("desktop");
+//        agent.setVersion(String.format("%d", Build.VERSION.SDK_INT));
+        agent.setVersion("Chromium 68.0.3440.75"); // Если заполнять данными значениями номер заказа возвращается всегда 0
         header.setAgent(agent);
         header.setDebugMode(true);
         header.setVersion("2.0");
@@ -222,26 +227,26 @@ public class MainActivity extends AppCompatActivity {
     boolean validForm() {
         boolean formIsValid = true;
         if (!isValidPhoneOrEmail(mEmailET.getText(), Patterns.EMAIL_ADDRESS)) {
-            mEmailET.setError("Enter valid email");
+            mEmailET.setError(getResources().getString(R.string.invalid_email));
             formIsValid = false;
         }
 
         if (!isValidPhoneOrEmail(mPhoneET.getText(), Patterns.PHONE)) {
-            mPhoneET.setError("Enter valid phone");
+            mPhoneET.setError(getResources().getString(R.string.invalid_phone));
             formIsValid = false;
         }
 
         boolean isCountPersonCorrect = !TextUtils.isEmpty(mCountPersonET.getText()) &&
                 Integer.parseInt(mCountPersonET.getText().toString()) <= 10;
         if (!isCountPersonCorrect) {
-            mCountPersonET.setError("Персон должно быть меньше 10");
+            mCountPersonET.setError(getResources().getString(R.string.invalid_person));
             formIsValid = false;
         }
 
         boolean isCountItemCorrect = !TextUtils.isEmpty(mCountItemsET.getText()) &&
                 Integer.parseInt(mCountItemsET.getText().toString()) > 0;
         if (!isCountItemCorrect) {
-            mCountItemsET.setError("Количество товаров должно быть больше 0");
+            mCountItemsET.setError(getResources().getString(R.string.invalid_item));
             formIsValid = false;
         }
 

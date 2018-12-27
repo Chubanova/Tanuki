@@ -102,7 +102,7 @@ public class DetailActivity extends AppCompatActivity {
             typeOfPaymentMethod.put("payment_card_restaurant", "Картой курьеру");
             payTypeTV.setText(typeOfPaymentMethod.get(request1.getData().getPaymentMethod()));
             commentTV.setText(request1.getData().getComments());
-            countPersonsTV.setText(String.format("%d",request1.getData().getPersons().toString()));
+            countPersonsTV.setText(String.format("%d",request1.getData().getPersons()));
             countItemsTV.setText(String.format("%d", request1.getData().getOrderItems().get(0).getAmount()));
 
         }
